@@ -394,7 +394,7 @@ function avr(callbacks)
       }
 
       pc = instructions[i].f(instruction, pc);
-      //console.log(instructions[i].fn.name);
+      //console.log(instructions[i].f.name);
       //console.log("pc: " + uint16_tostr(pc * 2)
       //+ " sp: " + uint16_tostr(_dmem.sp.read()));
   }
@@ -402,6 +402,7 @@ function avr(callbacks)
   return {
       tick: tick,
       uart0_write: _dmem.uart0.external_write,
-      pmem_write: _pmem.write
+      pmem_write: _pmem.write,
+      pmem_write_byte: _pmem.write_byte
   };
 }

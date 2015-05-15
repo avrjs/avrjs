@@ -26,7 +26,7 @@ function uint32_tostr(number)
     // >>> makes the number unsigned
     // & 0xFFFF gets rid of the more significant set bits if the number is
     // actually stored as a 32 bit signed int
-    // .slice and the "000" format the number to be always 4 digits
+    // .slice and the "000" format the number to be always 8 digits
     return(("0000000" + (((number >>> 0) & 0xFFFFFFFF).toString(16))).slice(-8));
 }
 
@@ -246,7 +246,7 @@ function core(dmem, pmem, pc_size_bytes)
   // carry7: R7 | R6 | R5 | R4 | R3 | R2 | R1 | R0
   function c7(R)
   {
-    if ((R & 0xFF) == 0)
+    if ((R & 0xFF) != 0)
     {
         dmem.sreg.c.set();
     }
@@ -1527,7 +1527,7 @@ function core(dmem, pmem, pc_size_bytes)
   function ins_ori(instruction, pc)
   {
       var d = 16 + x00F0(instruction);
-      var k = x0F0F(instruction);
+      var K = x0F0F(instruction);
       var Rd = dmem.read(d);
 
       var R = Rd | K;
@@ -1635,7 +1635,7 @@ function core(dmem, pmem, pc_size_bytes)
     var d = x01F0(instruction);
     var r = x020F(instruction);
     var Rd = dmem.read(d);
-    var Rr = dmem.read(r)
+    var Rr = dmem.read(r);
 
     var R = (Rd - Rr) - dmem.sreg.c.read();
 
