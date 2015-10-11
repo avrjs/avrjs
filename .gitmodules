@@ -1,0 +1,3 @@
+[submodule "swavr"]
+	path = swavr
+	url = https://github.com/avrjs/swavr.git
