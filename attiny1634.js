@@ -17,7 +17,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function attiny1634(uart0_write_cb)
+function attiny1634(uart0_write_cb, _)
 {
     var emsc_attiny1634_destroy = Module.cwrap('emsc_attiny1634_destroy', 'number', ['number']);
     var emsc_attiny1634_reinit = Module.cwrap('emsc_attiny1634_reinit', 'number', ['number']);

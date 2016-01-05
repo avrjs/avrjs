@@ -268,12 +268,16 @@ void emsc_atmega128_reinit(struct atmega128 * const mega)
 
 struct atmega128* emsc_atmega128_init(void(* const uart0_write_cb) (void*,
                                       uint8_t),
-                                      void* const uart0_write_cb_arg)
+                                      void(* const sleep_cb) (void*, uint8_t))
 {
     struct atmega128* mega = malloc(sizeof (*mega));
     if (mega != 0)
     {
-        atmega128_init(mega, uart0_write_cb, uart0_write_cb_arg);
+        atmega128_init(mega);
+        mega->uart0_write_cb = uart0_write_cb;
+        mega->uart0_write_cb_arg = 0;
+        mega->sleep_cb = sleep_cb;
+        mega->sleep_cb_arg = 0;
     }
     return mega;
 }
