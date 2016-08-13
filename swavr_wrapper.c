@@ -274,8 +274,8 @@ struct atmega128* emsc_atmega128_init(void(* const uart0_write_cb) (void*,
     if (mega != 0)
     {
         atmega128_init(mega);
-        mega->uart0_write_cb = uart0_write_cb;
-        mega->uart0_write_cb_arg = 0;
+        mega->uart0_cb = uart0_write_cb;
+        mega->uart0_cb_arg = 0;
         mega->sleep_cb = sleep_cb;
         mega->sleep_cb_arg = 0;
     }
@@ -337,12 +337,16 @@ void emsc_attiny1634_reinit(struct attiny1634 * const tiny)
 
 struct attiny1634* emsc_attiny1634_init(void(* const uart0_write_cb) (void*,
                                         uint8_t),
-                                        void* const uart0_write_cb_arg)
+                                        void(* const sleep_cb) (void*, uint8_t))
 {
     struct attiny1634* tiny = malloc(sizeof (*tiny));
     if (tiny != 0)
     {
-        attiny1634_init(tiny, uart0_write_cb, uart0_write_cb_arg);
+        attiny1634_init(tiny);
+        tiny->uart0_cb = uart0_write_cb;
+        tiny->uart0_cb_arg = 0;
+        tiny->sleep_cb = sleep_cb;
+        tiny->sleep_cb_arg = 0;
     }
     return tiny;
 }
