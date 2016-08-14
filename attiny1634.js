@@ -31,7 +31,7 @@ function attiny1634(uart0_cb, sleep_cb)
     var emsc_uart0_cb = Runtime.addFunction(function(_, c){uart0_cb(c);});
     var emsc_sleep_cb = Runtime.addFunction(function(_, sleep){sleep_cb(sleep);});
 
-    var tiny = Module.ccall('emsc_attiny1634_init', 'number', ['number', 'number'], [emsc_uart0_write_cb, 0]);
+    var tiny = Module.ccall('emsc_attiny1634_init', 'number', ['number', 'number'], [emsc_uart0_cb, emsc_sleep_cb]);
 
     return {
         reinit: function(){emsc_attiny1634_reinit(tiny);},
