@@ -17,7 +17,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function attiny1634(uart0_write_cb, _)
+function attiny1634(uart0_cb, sleep_cb)
 {
     var emsc_attiny1634_destroy = Module.cwrap('emsc_attiny1634_destroy', 'number', ['number']);
     var emsc_attiny1634_reinit = Module.cwrap('emsc_attiny1634_reinit', 'number', ['number']);
@@ -28,7 +28,8 @@ function attiny1634(uart0_write_cb, _)
     var emsc_attiny1634_get_pc = Module.cwrap('emsc_attiny1634_get_pc', 'number', ['number']);
     var emsc_attiny1634_get_instruction_name = Module.cwrap('emsc_attiny1634_get_instruction_name', 'number', ['number']);
 
-    var emsc_uart0_write_cb = Runtime.addFunction(function(_, c){uart0_write_cb(c);});
+    var emsc_uart0_cb = Runtime.addFunction(function(_, c){uart0_cb(c);});
+    var emsc_sleep_cb = Runtime.addFunction(function(_, sleep){sleep_cb(sleep);});
 
     var tiny = Module.ccall('emsc_attiny1634_init', 'number', ['number', 'number'], [emsc_uart0_write_cb, 0]);
 
@@ -41,7 +42,8 @@ function attiny1634(uart0_write_cb, _)
         get_instruction_name: function(){return Pointer_stringify(emsc_attiny1634_get_instruction_name(tiny));},
         destroy: function()
         {
-            Runtime.removeFunction(emsc_uart0_write_cb);
+            Runtime.removeFunction(emsc_uart0_cb);
+            Runtime.removeFunction(emsc_sleep_cb);
             emsc_attiny1634_destroy(tiny);
         }
     };

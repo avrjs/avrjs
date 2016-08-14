@@ -17,7 +17,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function atmega128(uart0_write_cb, sleep_cb)
+function atmega128(uart0_cb, sleep_cb)
 {
     var emsc_atmega128_destroy = Module.cwrap('emsc_atmega128_destroy', 'number', ['number']);
     var emsc_atmega128_reinit = Module.cwrap('emsc_atmega128_reinit', 'number', ['number']);
@@ -28,7 +28,7 @@ function atmega128(uart0_write_cb, sleep_cb)
     var emsc_atmega128_get_pc = Module.cwrap('emsc_atmega128_get_pc', 'number', ['number']);
     var emsc_atmega128_get_instruction_name = Module.cwrap('emsc_atmega128_get_instruction_name', 'number', ['number']);
 
-    var emsc_uart0_write_cb = Runtime.addFunction(function(_, c){uart0_write_cb(c);});
+    var emsc_uart0_cb = Runtime.addFunction(function(_, c){uart0_cb(c);});
     var emsc_sleep_cb = Runtime.addFunction(function(_, sleep){sleep_cb(sleep);});
 
     var mega = Module.ccall('emsc_atmega128_init', 'number', ['number', 'number'], [emsc_uart0_write_cb, emsc_sleep_cb]);
@@ -42,7 +42,8 @@ function atmega128(uart0_write_cb, sleep_cb)
         get_instruction_name: function(){return Pointer_stringify(emsc_atmega128_get_instruction_name(mega));},
         destroy: function()
         {
-            Runtime.removeFunction(emsc_uart0_write_cb);
+            Runtime.removeFunction(emsc_uart0_cb);
+            Runtime.removeFunction(emsc_sleep_cb);
             emsc_atmega128_destroy(mega);
         }
     };
