@@ -11,7 +11,7 @@ To compile an ATmega128 to JavaScript use the command
 If using more than one type of AVR, add them all to the command, like this command for compiling the ATmega128 and ATtiny1634
 
 ```sh
-emcc swavr_wrapper.c swavr/attiny1634.c swavr/atmega128.c swavr/avr.c -o swavr.js -O3 -s RESERVED_FUNCTION_POINTERS=8 -s EXPORTED_FUNCTIONS="['_emsc_attiny1634_get_pc', '_emsc_attiny1634_get_instruction_name', '_emsc_attiny1634_tick', '_emsc_attiny1634_uart0_write', '_emsc_attiny1634_pmem_write_byte', '_emsc_attiny1634_destroy', '_emsc_attiny1634_reinit', '_emsc_attiny1634_init', '_emsc_atmega128_get_pc', '_emsc_atmega128_get_instruction_name', '_emsc_atmega128_tick', '_emsc_atmega128_uart0_write', '_emsc_atmega128_pmem_write_byte', '_emsc_atmega128_destroy', '_emsc_atmega128_reinit', '_emsc_atmega128_init']"
+emcc swavr_wrapper.c swavr/attiny1634.c swavr/atmega128.c swavr/atmega328.c swavr/avr.c -o swavr.js -O3 -s RESERVED_FUNCTION_POINTERS=8 -s EXPORTED_FUNCTIONS="['_emsc_attiny1634_get_pc', '_emsc_attiny1634_get_instruction_name', '_emsc_attiny1634_tick', '_emsc_attiny1634_uart0_write', '_emsc_attiny1634_pmem_write_byte', '_emsc_attiny1634_destroy', '_emsc_attiny1634_reinit', '_emsc_attiny1634_init', '_emsc_atmega128_get_pc', '_emsc_atmega128_get_instruction_name', '_emsc_atmega128_tick', '_emsc_atmega128_uart0_write', '_emsc_atmega128_pmem_write_byte', '_emsc_atmega128_destroy', '_emsc_atmega128_reinit', '_emsc_atmega128_init', '_emsc_atmega328_get_pc', '_emsc_atmega328_get_instruction_name', '_emsc_atmega328_tick', '_emsc_atmega328_uart0_write', '_emsc_atmega328_pmem_write_byte', '_emsc_atmega328_destroy', '_emsc_atmega328_reinit', '_emsc_atmega328_init']"
 ```
 
 The functions to export for each AVR type are:

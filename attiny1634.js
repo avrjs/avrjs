@@ -1,5 +1,5 @@
 /*
- avr.js - An Atmel (TM) AVR (TM) simulator
+ attiny1634.js - An Atmel (TM) AVR (TM) simulator
 
  Copyright (C) 2015  Julian Ingram
 

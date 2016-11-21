@@ -1,5 +1,5 @@
 /*
- avr.js - An Atmel (TM) AVR (TM) simulator
+ atmega128.js - An Atmel (TM) AVR (TM) simulator
 
  Copyright (C) 2015  Julian Ingram
 

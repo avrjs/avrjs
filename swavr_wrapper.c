@@ -2,6 +2,7 @@
  this file is the emscripten interface to swavr.
 */
 
+#include "swavr/atmega328.h"
 #include "swavr/atmega128.h"
 #include "swavr/attiny1634.h"
 
@@ -212,6 +213,75 @@ static const struct emsc_avr_function_lookup emsc_avr_function_lookup[] = {
     {.function = &avr_ins_sbrc, .mne = "SBRC"}, // SBRC Rr,b
     {.function = &avr_ins_sbrs, .mne = "SBRS"}, // SBRS Rr,b
 };
+
+uint32_t emsc_atmega328_get_pc(const struct atmega328 * const mega)
+{
+    return mega->avr.pc;
+}
+
+const char*
+emsc_atmega328_get_instruction_name(const struct atmega328 * const mega)
+{
+    static char fnf[] = "instruction_not_found";
+
+    size_t i = 0;
+    size_t limit = sizeof (emsc_avr_function_lookup) /
+            sizeof (emsc_avr_function_lookup[0]);
+    while ((emsc_avr_function_lookup[i].function !=
+            mega->avr.pmem.decoded[mega->avr.pc].function) && (i < limit))
+    {
+        ++i;
+    }
+    if (i == limit)
+    {
+        return fnf;
+    }
+    return emsc_avr_function_lookup[i].mne;
+}
+
+void emsc_atmega328_tick(struct atmega328 * const mega)
+{
+    atmega328_tick(mega);
+}
+
+void emsc_atmega328_uart0_write(struct atmega328 * const mega,
+                                const uint8_t value)
+{
+    atmega328_uart0_write(mega, value);
+}
+
+void emsc_atmega328_pmem_write_byte(struct atmega328 * const mega,
+                                    const uint32_t address,
+                                    const uint8_t data)
+{
+    atmega328_pmem_write_byte(&mega->avr.pmem, address, data);
+}
+
+void emsc_atmega328_destroy(struct atmega328 * const mega)
+{
+    free(mega);
+}
+
+void emsc_atmega328_reinit(struct atmega328 * const mega)
+{
+    atmega328_reinit(mega);
+}
+
+struct atmega328* emsc_atmega328_init(void(* const uart0_cb) (void*,
+                                      uint8_t),
+                                      void(* const sleep_cb) (void*, uint8_t))
+{
+    struct atmega328* mega = malloc(sizeof (*mega));
+    if (mega != 0)
+    {
+        atmega328_init(mega);
+        mega->uart0_cb = uart0_cb;
+        mega->uart0_cb_arg = 0;
+        mega->sleep_cb = sleep_cb;
+        mega->sleep_cb_arg = 0;
+    }
+    return mega;
+}
 
 uint32_t emsc_atmega128_get_pc(const struct atmega128 * const mega)
 {
