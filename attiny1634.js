@@ -74,11 +74,8 @@ function load_default()
         {
             hex_array[i] = hex.charCodeAt(i);
         }
-        console.log("load");
         window.avrjs.load(hex_array);
-        console.log("run");
         window.avrjs.run();
-        console.log("rund");
 
         $("#btn_run").css("display", "inline");
         $("#btn_load").css("display", "inline");

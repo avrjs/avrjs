@@ -65,7 +65,7 @@ function load_default()
     // loading hex
     var hot_drop = $("<div style='display:none;'></div>");
     $(document.body).append(hot_drop);
-    hot_drop.load("avrjs_term_atmega328.hex", function ()
+    hot_drop.load("avrjs_term_atmega128.hex", function ()
     {
 	    var hex = hot_drop.html();
         var buf = new ArrayBuffer(hex.length);
@@ -74,11 +74,8 @@ function load_default()
         {
             hex_array[i] = hex.charCodeAt(i);
         }
-        console.log("load");
         window.avrjs.load(hex_array);
-        console.log("run");
         window.avrjs.run();
-        console.log("rund");
 
         $("#btn_run").css("display", "inline");
         $("#btn_load").css("display", "inline");
@@ -221,7 +218,6 @@ function avrjs()
             }
             avr.destroy();
         }
-        console.log("sz " + bootsz + " rst " + bootrst);
         avr = atmega128(uart0_cb, sleep_cb, bootsz, bootrst);
         avr.extern_sleep_cb = _extern_sleep_cb;
         console.log("pc: " + avr.get_pc().toString(16));
