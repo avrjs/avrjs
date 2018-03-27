@@ -220,7 +220,6 @@ function avrjs()
         }
         avr = atmega328(uart0_cb, sleep_cb, bootsz, bootrst);
         avr.extern_sleep_cb = _extern_sleep_cb;
-        console.log("pc: " + avr.get_pc().toString(16));
     }
 
     return {
